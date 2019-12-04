@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() {
-  Firestore.instance
-      .collection('books')
-      .document()
-      .setData({'title': 'title', 'author': 'author'});
   runApp(MyApp());
 }
 
@@ -54,7 +50,14 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
-  void _incrementCounter() {
+  void teste() {
+    Firestore.instance
+        .collection('books')
+        .document()
+        .setData({'title': 'title', 'author': 'author'});
+  }
+
+  void _incrementCounter() async {
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
@@ -63,6 +66,11 @@ class _MyHomePageState extends State<MyHomePage> {
       // called again, and so nothing would appear to happen.
       _counter++;
     });
+    QuerySnapshot snapshot =
+        await Firestore.instance.collection("books").getDocuments();
+    for (DocumentSnapshot doc in snapshot.documents) {
+      print(doc.data);
+    }
   }
 
   @override
